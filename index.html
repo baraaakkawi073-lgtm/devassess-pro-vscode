@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="DevAssess Pro - static technical assessment platform: QCM quizzes, logical analysis puzzles and an engineering case study. Runs anywhere with VS Code Live Server."
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <title>DevAssess Pro | Technical Assessment Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#eef2ff',
+                100: '#e0e7ff',
+                200: '#c7d2fe',
+                300: '#a5b4fc',
+                400: '#818cf8',
+                500: '#6366f1',
+                600: '#4f46e5',
+                700: '#4338ca',
+                800: '#3730a3',
+                900: '#312e81',
+              },
+            },
+            keyframes: {
+              'fade-up': {
+                '0%': { opacity: '0', transform: 'translateY(12px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'pulse-soft': {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0.55' },
+              },
+            },
+            animation: {
+              'fade-up': 'fade-up 0.45s ease-out both',
+              'pulse-soft': 'pulse-soft 1.6s ease-in-out infinite',
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="style.custom.css" />
+  </head>
+
+  <body class="flex min-h-screen flex-col bg-slate-50 text-slate-700 antialiased dark:bg-slate-950 dark:text-slate-300">
+    <noscript>
+      <div class="m-4 rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
+        DevAssess Pro needs JavaScript enabled to run the quiz engine.
+      </div>
+    </noscript>
+
+    <header
+      class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80"
+    >
+      <div class="container-page flex h-16 items-center justify-between gap-4">
+        <a href="#/" class="flex shrink-0 items-center gap-2.5">
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-500 text-xs font-black tracking-tight text-white shadow-lg shadow-brand-600/30"
+            >DA</span
+          >
+          <span class="text-[15px] font-bold tracking-tight text-slate-900 dark:text-white">
+            DevAssess <span class="text-brand-500">Pro</span>
+          </span>
+        </a>
+
+        <nav class="hidden items-center gap-1 sm:flex">
+          <a href="#/" class="nav-link" data-nav="home">Home</a>
+          <a href="#/quiz" class="nav-link" data-nav="quiz">Quiz</a>
+          <a href="#/report" class="nav-link" data-nav="report">Case Study</a>
+          <button type="button" class="nav-link" onclick="openCodeViewer('index.html')">
+            Code viewer
+          </button>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            id="theme-toggle"
+            aria-label="Toggle dark mode"
+            title="Toggle dark mode"
+            class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
+          ></button>
+          <a href="#/quiz" class="btn btn-primary hidden sm:inline-flex">Start quiz</a>
+        </div>
+      </div>
+
+      <nav class="container-page flex items-center gap-1 overflow-x-auto pb-2 sm:hidden">
+        <a href="#/" class="nav-link" data-nav="home">Home</a>
+        <a href="#/quiz" class="nav-link" data-nav="quiz">Quiz</a>
+        <a href="#/report" class="nav-link" data-nav="report">Case Study</a>
+        <button type="button" class="nav-link" onclick="openCodeViewer('index.html')">Code</button>
+      </nav>
+    </header>
+
+    <main class="flex-1">
+      <section id="view-home" class="view">
+        <div class="relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+          <div
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.14),transparent_55%)]"
+          ></div>
+          <div class="container-page relative py-16 sm:py-24">
+            <div class="max-w-3xl animate-fade-up">
+              <span
+                class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-300"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                Static edition &middot; zero build &middot; runs on VS Code Live Server
+              </span>
+
+              <h1
+                class="mt-6 text-4xl font-black tracking-tight text-slate-900 dark:text-white sm:text-5xl sm:leading-[1.1]"
+              >
+                Assess. Analyze.
+                <span class="bg-gradient-to-r from-brand-500 to-violet-500 bg-clip-text text-transparent">
+                  Advance.</span
+                >
+              </h1>
+
+              <p class="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+                A complete technical assessment platform in three files: 60 QCM questions across six
+                tracks, instant scoring with explanations, logical analysis puzzles and a full
+                engineering case study.
+              </p>
+
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#/quiz" class="btn btn-primary px-5 py-3 text-base">
+                  Start a quiz
+                  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 0 1 1-1h10.6l-3.3-3.3a1 1 0 1 1 1.4-1.4l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4l3.3-3.3H4a1 1 0 0 1-1-1Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a href="#/report" class="btn btn-secondary px-5 py-3 text-base">
+                  Read the case study
+                </a>
+              </div>
+
+              <dl class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="stat-card">
+                  <dt>Quiz tracks</dt>
+                  <dd id="stat-categories">6</dd>
+                </div>
+                <div class="stat-card">
+                  <dt>Questions</dt>
+                  <dd id="stat-questions">60</dd>
+                </div>
+                <div class="stat-card">
+                  <dt>Pass mark</dt>
+                  <dd>70%</dd>
+                </div>
+                <div class="stat-card">
+                  <dt>Feedback</dt>
+                  <dd>Instant</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-page py-14">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                Quiz tracks
+              </h2>
+              <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                Curated question banks with instant scoring and written explanations.
+              </p>
+            </div>
+            <a href="#/quiz" class="btn btn-secondary">View all</a>
+          </div>
+          <div id="home-categories" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+
+        <section class="border-y border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/50">
+          <div class="container-page py-14">
+            <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+              Why this edition
+            </h2>
+            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="card p-6">
+                <span class="icon-tile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 3 5.5 13.5H11L10 21l7.5-10.5H12L13 3Z" />
+                  </svg>
+                </span>
+                <h3 class="mt-4 text-sm font-bold text-slate-900 dark:text-white">
+                  Instant scoring
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  Every answer is graded the moment you pick it, with the full explanation before
+                  you move on.
+                </p>
+              </div>
+              <div class="card p-6">
+                <span class="icon-tile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5M13.5 4l-3 16" />
+                  </svg>
+                </span>
+                <h3 class="mt-4 text-sm font-bold text-slate-900 dark:text-white">
+                  Built-in code viewer
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  Browse this project's own source files (HTML, CSS, JS, docs) from inside the app.
+                </p>
+              </div>
+              <div class="card p-6">
+                <span class="icon-tile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 3.75h6.6L19 9.1V20.25a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z"
+                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.2 3.9V9.3H18.7M9 13h6M9 16.5h6" />
+                  </svg>
+                </span>
+                <h3 class="mt-4 text-sm font-bold text-slate-900 dark:text-white">
+                  Technical case study
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  A full engineering report - architecture, ADRs, security, testing and CI/CD -
+                  rendered in-app.
+                </p>
+              </div>
+              <div class="card p-6">
+                <span class="icon-tile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+                  </svg>
+                </span>
+                <h3 class="mt-4 text-sm font-bold text-slate-900 dark:text-white">
+                  Dark mode ready
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  Class-based dark theme with the preference persisted in localStorage.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="container-page py-14">
+          <div class="grid gap-8 lg:grid-cols-[1fr,1.2fr] lg:items-center">
+            <div>
+              <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                How it works
+              </h2>
+              <p class="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                Open the folder in VS Code, start Live Server, and the whole platform runs from
+                three files - no install, no build step, no backend.
+              </p>
+              <a href="#/report" class="btn btn-secondary mt-6">Architecture deep-dive</a>
+            </div>
+            <ol class="space-y-4">
+              <li class="card flex items-start gap-4 p-5">
+                <span class="step-badge">1</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">Pick a track</h3>
+                  <p class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    Six curated banks: DSA, OOP, HTML/CSS/JS, MERN, ASP.NET Core and logical
+                    analysis.
+                  </p>
+                </div>
+              </li>
+              <li class="card flex items-start gap-4 p-5">
+                <span class="step-badge">2</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">
+                    Answer with feedback
+                  </h3>
+                  <p class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    Each selection is graded immediately and the reasoning is shown before you
+                    continue.
+                  </p>
+                </div>
+              </li>
+              <li class="card flex items-start gap-4 p-5">
+                <span class="step-badge">3</span>
+                <div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">
+                    Review your report
+                  </h3>
+                  <p class="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    Scored breakdown, full answer review and a pass/fail verdict at 70%.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </section>
+
+      <section id="view-quiz" class="view hidden">
+        <div id="quiz-root" class="container-page py-8 sm:py-10"></div>
+      </section>
+
+      <section id="view-report" class="view hidden">
+        <div class="container-page py-10 sm:py-14">
+          <div class="mx-auto max-w-3xl">
+            <header class="card overflow-hidden">
+              <div class="h-1.5 bg-gradient-to-r from-brand-500 via-violet-500 to-fuchsia-500"></div>
+              <div
+                class="flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8"
+              >
+                <div class="flex items-start gap-4">
+                  <span class="icon-tile icon-tile-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M7 3.75h6.6L19 9.1V20.25a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.75a1 1 0 0 1 1-1Z"
+                      />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.2 3.9V9.3H18.7M9 13h6M9 16.5h6" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                      Technical report &amp; case study
+                    </p>
+                    <h1 class="mt-1 text-xl font-black tracking-tight text-slate-900 dark:text-white">
+                      DevAssess Pro - Technical Report &amp; Engineering Case Study
+                    </h1>
+                    <p class="mt-1 font-mono text-xs text-slate-400">docs/Technical_Report.md</p>
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button type="button" class="btn btn-secondary" onclick="window.print()">
+                    Print
+                  </button>
+                  <a href="docs/Technical_Report.md" class="btn btn-primary" download>
+                    Raw markdown
+                  </a>
+                </div>
+              </div>
+            </header>
+
+            <article class="card mt-6 px-6 py-8 sm:px-10 sm:py-10">
+              <div id="report-loading" class="skeleton h-72"></div>
+              <div id="report-error" class="hidden text-sm text-rose-600"></div>
+              <div id="report-body" class="markdown hidden"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-16 border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+      <div class="container-page grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-violet-500 text-[11px] font-black text-white"
+              >DA</span
+            >
+            <span class="text-sm font-bold text-slate-900 dark:text-white">DevAssess Pro</span>
+          </div>
+          <p class="max-w-xs text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+            Static edition: three source files, zero build step, runs anywhere a browser and a
+            static server meet.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Assess</h3>
+          <ul class="footer-links">
+            <li><a href="#/quiz">All categories</a></li>
+            <li><a href="#/quiz/dsa">DSA quiz</a></li>
+            <li><a href="#/quiz/logical">Logical analysis</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Learn</h3>
+          <ul class="footer-links">
+            <li><a href="#/report">Technical report</a></li>
+            <li><a href="docs/Technical_Report.md">Report (raw markdown)</a></li>
+            <li>
+              <button type="button" onclick="openCodeViewer('app.js')">app.js source</button>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Files</h3>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button class="chip" onclick="openCodeViewer('index.html')">index.html</button>
+            <button class="chip" onclick="openCodeViewer('style.custom.css')">style.custom.css</button>
+            <button class="chip" onclick="openCodeViewer('app.js')">app.js</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-200 py-5 dark:border-slate-800">
+        <div
+          class="container-page flex flex-col items-center justify-between gap-2 text-xs text-slate-500 sm:flex-row"
+        >
+          <p>MIT License &middot; &copy; 2026 DevAssess Pro Contributors</p>
+          <p>Built for developers, by developers.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div id="code-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="code-modal-title">
+      <div class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" data-code-close></div>
+      <div
+        class="relative mx-auto mt-10 flex max-h-[85vh] w-11/12 max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900"
+      >
+        <div class="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5M13.5 4l-3 16" />
+              </svg>
+            </span>
+            <div>
+              <h2 id="code-modal-title" class="text-sm font-bold text-slate-900 dark:text-white">
+                Project source viewer
+              </h2>
+              <p class="text-xs text-slate-400">Files served live by the VS Code Live Server</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-ghost text-xs"
+            data-code-close
+            aria-label="Close code viewer"
+          >
+            Close
+          </button>
+        </div>
+
+        <div id="code-tabs" class="flex gap-2 overflow-x-auto border-b border-slate-200 px-4 py-3 dark:border-slate-800"></div>
+
+        <div class="relative flex-1 overflow-auto bg-slate-950">
+          <pre class="code-pre"><code id="code-output" class="text-slate-100">Loading...</code></pre>
+        </div>
+
+        <div
+          class="flex items-center justify-between gap-3 border-t border-slate-200 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400"
+        >
+          <span id="code-meta">-</span>
+          <button type="button" class="btn btn-secondary px-3 py-1.5 text-xs" id="code-copy">
+            Copy file
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
