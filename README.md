@@ -37,10 +37,10 @@ Browsers block `fetch()` on `file://` URLs. The Case Study tab (loads `docs/Tech
 - **Score report** — animated score ring, passed/failed banner, per-question review, retake button.
 - **Logical analysis track** — pattern and deduction puzzles alongside the technical tracks.
 - **Case Study tab** — renders `docs/Technical_Report.md` with [marked](https://github.com/markedjs/marked) into a formatted engineering report.
-- **Built-in code viewer** — browse the five project files (`index.html`, `style.custom.css`, `app.js`, `README.md`, `docs/Technical_Report.md`) with line/byte counts and one-click copy, served live by Live Server.
+- **Built-in code viewer** — browse the four project files (`index.html`, `app.js`, `README.md`, `docs/Technical_Report.md`) with line/byte counts and one-click copy, served live by Live Server.
 - **Hash routing** — `#/`, `#/quiz/<track>`, `#/report`; refresh-safe and shareable, no server rewrites needed.
 - **Dark / light theme** — persisted in `localStorage` under `devassess-theme`.
-- **Responsive** — mobile through desktop, Tailwind utility styling plus a small custom stylesheet.
+- **Responsive** — mobile through desktop, Tailwind utility styling plus an embedded custom style block.
 - **Accessible** — semantic landmarks, keyboard-navigable options, `Esc` closes the code modal, ARIA labels on icon buttons.
 
 ---
@@ -64,8 +64,7 @@ Grading is instant and local: one point per correct answer, **≥ 70% passes**, 
 
 ```
 DevAssess-Pro-VSCode/
-├── index.html                    # Layout, Tailwind CDN config, all views + code modal
-├── style.custom.css              # Custom components, markdown typography, print styles
+├── index.html                    # Layout, Tailwind CDN config, embedded styles, all views + code modal
 ├── app.js                        # Question banks (60), scoring, hash router, theme, report + code loader
 ├── README.md                     # This file
 ├── docs/
@@ -80,7 +79,7 @@ DevAssess-Pro-VSCode/
 | Layer | Choice |
 |-------|--------|
 | Markup & layout | HTML5 + [Tailwind CSS via CDN](https://cdn.tailwindcss.com) (inline config: `darkMode: 'class'`, custom brand palette) |
-| Custom styling | `style.custom.css` (components, markdown, print) |
+| Custom styling | Embedded `<style>` block in `index.html` (components, markdown typography, print) |
 | Logic | Vanilla ES2020+, no framework, no bundler |
 | Markdown rendering | [marked](https://cdn.jsdelivr.net/npm/marked/marked.min.js) (CDN) |
 | Server | VS Code Live Server (or any static file server) |
@@ -93,7 +92,7 @@ DevAssess-Pro-VSCode/
 - **Routing** is hash-based (`parseRoute` / `navigate` on `hashchange`), toggling `#view-home`, `#view-quiz`, `#view-report`.
 - **Scoring** happens in `gradeSubmission()` — it returns `{ score, total, percentage, passed, threshold, unanswered, breakdown }`.
 - **`loadReport()`** fetches `docs/Technical_Report.md` once and renders it with `marked`.
-- **`openCodeViewer(file)`** fetches any of the five project files into the modal with line/byte metadata and copy-to-clipboard.
+- **`openCodeViewer(file)`** fetches any of the four project files into the modal with line/byte metadata and copy-to-clipboard.
 
 ---
 

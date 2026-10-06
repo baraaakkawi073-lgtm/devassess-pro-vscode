@@ -811,7 +811,6 @@ const QUESTIONS = {
 
 const CODE_FILES = [
   'index.html',
-  'style.custom.css',
   'app.js',
   'README.md',
   'docs/Technical_Report.md',
